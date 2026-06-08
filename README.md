@@ -3,11 +3,10 @@
 Desenvolvimento de uma ferramenta de monitoramento de rede inspirada em Sistemas de Detecção de Intrusão Baseados em Rede (NIDS), capaz de capturar e analisar pacotes TCP e UDP em tempo real. O projeto inclui funcionalidades de inspeção de tráfego, geração de alertas e detecção de possíveis ataques DoS e DDoS.
 
 ## Instalação
-
-1.Clone este repositório.
-2.crie um ambiente virtual: python3 -m venv venv && source venv/bin/activate
-3.Instale as dependências: pip install -r requirements.txt
-4.Execute: python3 NIDS.py
+1. Clone este repositório.
+2. Crie um ambiente virtual: `python3 -m venv venv && source venv/bin/activate`
+3. Instale as dependências: `pip install -r requirements.txt`
+4. Execute: `python3 ndis.py`
 
 ## Licença
 
