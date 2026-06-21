@@ -1,12 +1,20 @@
-from scapy.all import TCP, IP, UDP, sniff
+"""
+Autor: SKULL
+Uso: python3 NIDS.py
+Descricao: network security
+"""
+
+from scapy.all import TCP, IP, UDP, Raw, sniff
 import time
 import os
 import platform
 
+pacote_bruteporsg = 30
 limite_pacotes = 3000
 tempo_por_sg = 50
 historico = []
 historico_udp = []
+historico_ssh = []
 
 os.system("cls" if os.name == "nt" else "clear")
 
@@ -14,6 +22,7 @@ def main(pacote):
     if IP in pacote:
         if TCP in pacote:
             pacotes_tcp(pacote)
+            SSH(pacote)
         elif UDP in pacote:
             pacotes_UDP(pacote)
 
@@ -77,6 +86,35 @@ def pacotes_UDP(pacote):
                     if item["IP"] == ip:
                         historico_udp.remove(item)
 
+def SSH(pacote):
+    if pacote.haslayer(TCP) and pacote.haslayer(Raw):
+        if pacote[TCP].dport == 22 or pacote[TCP].sport == 22:
+            ip_src = pacote[IP].src
+            ip_dst = pacote[IP].dst
+            sport = pacote[TCP].sport
+            dport = pacote[TCP].dport
+            tempo = time.time()
+
+            print(f"SSH: IP {ip_src}:{ip_dst} Destino: {sport}:{dport}")
+            historico_ssh.append({"IP": ip_src, "IP_DST": ip_dst, "SPORT": sport, "DPORT": dport, "Tempo": tempo})
+
+        limite = time.time() - pacote_bruteporsg
+        for item in historico_ssh[:]:
+            if item["Tempo"] < limite:
+                historico_ssh.remove(item)
+
+        contagem_por_ip = {}
+        for item in historico_ssh:
+            ip = item["IP"]
+            contagem_por_ip[ip] = contagem_por_ip.get(ip, 0) + 1
+
+        for ip, contagem in contagem_por_ip.items():
+            if contagem > pacote_bruteporsg:
+                print(f"Possivel Bruteforce SSH - IP: {ip} | Pacotes: {contagem}")
+                for item in historico_ssh[:]:
+                    if item["IP"] == ip:
+                        historico_ssh.remove(item)
+
 if __name__ == "__main__":
     RPST = input("Digite sua interface: ")
-    sniff(iface=RPST, filter="tcp or udp", prn=main, store=False)
+    sniff(iface=RPST, filter="ip", prn=main, store=False)
