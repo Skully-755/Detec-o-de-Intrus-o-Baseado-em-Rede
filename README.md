@@ -2,7 +2,7 @@
 
 ## Detecão-de-Intrusos
 
-Desenvolvimento de uma ferramenta de monitoramento de rede inspirada em Sistemas de Detecção de Intrusão Baseados em Rede (NIDS), capaz de capturar e analisar pacotes TCP e UDP em tempo real. O projeto inclui funcionalidades de inspeção de tráfego, geração de alertas e detecção de possíveis ataques DoS e DDoS.
+Desenvolvimento de uma ferramenta de monitoramento de rede inspirada em Sistemas de Detecção de Intrusão Baseados em Rede (NIDS), capaz de capturar e analisar pacotes TCP e UDP em tempo real. O projeto inclui funcionalidades de inspeção de tráfego, geração de alertas e detecção de possíveis ataques DoS, DDoS e Brute forces em SSH.
 
 ## Instalação
 1. Clone este repositório.
